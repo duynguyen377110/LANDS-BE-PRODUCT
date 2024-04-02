@@ -37,5 +37,5 @@ def hello_world():
 
 
 if __name__ == "__main__":
-    controllerCategory.createCategory()
+    controllerCategory.createCategory(connection, mongo)
     app.run(host='0.0.0.0', port=8082)
