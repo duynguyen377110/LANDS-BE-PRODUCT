@@ -48,15 +48,15 @@ def create_product():
     return controllerProduct.create_product(mongo, data_decode)
 
 
-@app.route("/api/v1/product_update", methods=["POST"])
-def create_product():
+@app.route("/api/v1/product_update", methods=["PATCH"])
+def update_product():
     data = request.data
     data_decode = data.decode("utf-8")
     return controllerProduct.update_product(mongo, data_decode)
 
 
-@app.route("/api/v1/product_delete", methods=["POST"])
-def create_product():
+@app.route("/api/v1/product_delete", methods=["DELETE"])
+def delete_product():
     data = request.data
     data_decode = data.decode("utf-8")
     return controllerProduct.delete_product(mongo, data_decode)

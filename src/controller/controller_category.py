@@ -64,3 +64,11 @@ class ControllerCategory:
         if result.deleted_count != 1:
             return jsonify({'status': False, 'message': 'Delete category unsucess', "thumbs": []})
         return jsonify({'status': True, 'message': 'Delete category success', "thumbs": category['thumbs']})
+
+
+    def remove_association_product(self, mongo, category_id, product_id):
+        id_category = ObjectId(category_id)
+        id_product = ObjectId(product_id)
+        result = mongo.db.categories.update_one({"_id": id_category}, {'$pull': {'products': id_product}})
+
+        return result.modified_count > 0 if True else False
