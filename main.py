@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flask_pymongo import PyMongo
-import pika
+import pika, json
 from src.config.config import Config
 from src.controller.controller_category import ControllerCategory
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 config = Config()
 
 #configuration
@@ -17,25 +19,27 @@ mongo = PyMongo(app)
 
 
 controllerCategory = ControllerCategory()
-@app.route("/")
-def hello_world():
-    # channel = connection.channel()
-    # channel.queue_declare(queue="messages")
-    # channel.basic_publish(exchange='', routing_key="messages", body='Text')
-    # connection.close()
 
-    # Access the "users" collection in MongoDB
-    users_collection = mongo.db.roles
+@app.route("/category_update", methods=['PATCH'])
+def update_category():
+    data = request.data
+    data_decode = data.decode("utf-8")
+    print(data_decode)
+    return jsonify({"status": True, "message": 'update category success'})
 
-    # Query all documents in the "users" collection
-    users = users_collection.find()
+@app.route("/category_delete", methods=['DELETE'])
+def delete_category():
+    data = request.data
+    data_decode = data.decode("utf-8")
+    print(data_decode)
+    return jsonify({"status": True, "message": 'update category success'})
 
-    # Convert MongoDB cursor to a list of dictionaries
-    users_list = list(users)
-    print(users_list)
-    return "<p>Hello, World! 101</p>"
-
+@app.route("/category", methods=["POST"])
+def create_category():
+    body = request.data
+    category = body.decode("utf-8")
+    controllerCategory.createCategory(mongo, category)
+    return jsonify({"status": True, "message": 'create category success'})
 
 if __name__ == "__main__":
-    controllerCategory.createCategory(connection, mongo)
     app.run(host='0.0.0.0', port=8082)
