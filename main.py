@@ -38,8 +38,7 @@ def delete_category():
 def create_category():
     body = request.data
     category = body.decode("utf-8")
-    controllerCategory.createCategory(mongo, category)
-    return jsonify({"status": True, "message": 'create category success'})
+    return controllerCategory.createCategory(mongo, category)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8082)
