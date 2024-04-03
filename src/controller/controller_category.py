@@ -32,6 +32,24 @@ class ControllerCategory:
             return jsonify({'status': False, 'message': 'Create category unsucess'})
         return jsonify({'status': True, 'message': 'Create category sucess'})
 
+    # UPDATE CATEGORY
+    def update_category(self, mongo, data):
+        data_json = self.mapper.conert_data_to_json(data)
+        category_id = ObjectId(data_json["id"])
+        result = mongo.db.categories.update_one({
+            '_id': category_id
+            },
+            {
+                '$set': {
+                    "title": data_json["title"],
+                    "description": data_json["description"],
+                },
+                "$push": {'thumbs': {'$each': data_json["thumbs"]}}
+            })
+        if result.modified_count != 1:
+            return jsonify({'status': False, 'message': 'Update category unsucess'})
+        return jsonify({'status': True, 'message': 'Update category sucess'})
+
     # DELETE CATEGORY BY ID
     def delete_category(self, mongo, data):
         data_json = self.mapper.conert_data_to_json(data)

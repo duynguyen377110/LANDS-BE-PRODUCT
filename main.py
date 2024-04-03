@@ -19,18 +19,17 @@ mongo = PyMongo(app)
 controllerCategory = ControllerCategory()
 
 # CATEGORY
-@app.route("/api/v1/category_update", methods=['PATCH'])
-def update_category():
-    data = request.data
-    data_decode = data.decode("utf-8")
-    print(data_decode)
-    return jsonify({"status": True, "message": 'update category success'})
-
 @app.route("/api/v1/category", methods=["POST"])
 def create_category():
     body = request.data
     category = body.decode("utf-8")
     return controllerCategory.create_category(mongo, category)
+
+@app.route("/api/v1/category_update", methods=['PATCH'])
+def update_category():
+    data = request.data
+    data_decode = data.decode("utf-8")
+    return controllerCategory.update_category(mongo, data_decode)
 
 @app.route("/api/v1/category_delete", methods=['DELETE'])
 def delete_category():
