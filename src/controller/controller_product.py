@@ -17,9 +17,31 @@ class ControllerProduct:
         product_id = ObjectId(id)
         return mongo.db.products.find_one({"_id": product_id})
 
+
     # CREATE PRODUCT
     def create_product(self, mongo, data):
-        pass
+        data_json = self.mapper.conert_data_to_json(data)
+
+        product = mongo.db.products.insert_one({
+            'productOwner': data_json["productOwner"],
+            'address': data_json["address"],
+            'contact': data_json["contact"],
+            'landArea': data_json["landArea"],
+            'price': data_json["price"],
+            'categories': ObjectId(data_json["category"]),
+            'thumbs': data_json["thumbs"],
+            'createdAt': self.current_time,
+            'updatedAt': self.current_time
+        })
+
+        if product == None:
+            return jsonify({'status': False, 'message': 'Create product unsucess'})
+
+        print(product)
+        result = self.controllerCategory.create_association_product(mongo, data_json["category"], str(product.inserted_id))
+        if result:
+            return jsonify({'status': True, 'message': 'Create product sucess'})
+        return jsonify({'status': False, 'message': 'Create product unsucess'})
 
     # UPDATE PRODUCT
     def update_product(self, mong, data):
