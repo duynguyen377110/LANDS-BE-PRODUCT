@@ -44,8 +44,56 @@ class ControllerProduct:
         return jsonify({'status': False, 'message': 'Create product unsucess'})
 
     # UPDATE PRODUCT
-    def update_product(self, mong, data):
-        pass
+    def update_product(self, mongo, data):
+        data_json = self.mapper.conert_data_to_json(data)
+
+        product = self.find_product_by_id(mongo, data_json['id'])
+
+        print(data_json)
+        print(product)
+        print(str(product["categories"]) == data_json['category'])
+
+        payload = {
+            'productOwner': data_json["productOwner"],
+            'address': data_json["address"],
+            'contact': data_json["contact"],
+            'landArea': data_json["landArea"],
+            'price': data_json["price"],
+            'updatedAt': self.current_time
+        }
+
+        if str(product["categories"]) != data_json['category']:
+            status_remove_association = self.controllerCategory.remove_association_product(mongo, str(product["categories"]), data_json['id'])
+            if status_remove_association:
+                status_create_association = self.controllerCategory.create_association_product(mongo, data_json['category'], data_json['id'])
+
+                if status_create_association:
+                    payload = {
+                        'productOwner': data_json["productOwner"],
+                        'address': data_json["address"],
+                        'contact': data_json["contact"],
+                        'landArea': data_json["landArea"],
+                        'price': data_json["price"],
+                        'categories': ObjectId(data_json["category"]),
+                        'updatedAt': self.current_time
+                    }
+                else:
+                    return jsonify({'status': False, 'message': 'Update product unsucess'})
+            else:
+                return jsonify({'status': False, 'message': 'Update product unsucess'})
+
+        result = mongo.db.products.update_one({
+            '_id': ObjectId(data_json['id'])
+            },
+            {
+                '$set': payload,
+                "$push": {'thumbs': {'$each': data_json["thumbs"]}}
+            })
+
+        if result.modified_count != 1:
+            return jsonify({'status': False, 'message': 'Update product unsucess'})
+        return jsonify({'status': True, 'message': 'Update product sucess'})
+
 
     # DELETE PRODUCT
     def delete_product(self, mongo, data):
