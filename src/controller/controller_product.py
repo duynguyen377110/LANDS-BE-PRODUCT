@@ -37,8 +37,7 @@ class ControllerProduct:
         if product == None:
             return jsonify({'status': False, 'message': 'Create product unsucess'})
 
-        print(product)
-        result = self.controllerCategory.create_association_product(mongo, data_json["category"], str(product.inserted_id))
+        result = self.controllerCategory.create_association_product({"category": data_json["category"], "product": str(product.inserted_id)})
         if result:
             return jsonify({'status': True, 'message': 'Create product sucess'})
         return jsonify({'status': False, 'message': 'Create product unsucess'})
@@ -48,10 +47,6 @@ class ControllerProduct:
         data_json = self.mapper.conert_data_to_json(data)
 
         product = self.find_product_by_id(mongo, data_json['id'])
-
-        print(data_json)
-        print(product)
-        print(str(product["categories"]) == data_json['category'])
 
         payload = {
             'productOwner': data_json["productOwner"],
@@ -63,9 +58,9 @@ class ControllerProduct:
         }
 
         if str(product["categories"]) != data_json['category']:
-            status_remove_association = self.controllerCategory.remove_association_product(mongo, str(product["categories"]), data_json['id'])
+            status_remove_association = self.controllerCategory.remove_association_product({"category": str(product["categories"]), "product": data_json['id']})
             if status_remove_association:
-                status_create_association = self.controllerCategory.create_association_product(mongo, data_json['category'], data_json['id'])
+                status_create_association = self.controllerCategory.create_association_product({"category": data_json['category'], "product": data_json['id']})
 
                 if status_create_association:
                     payload = {
@@ -100,7 +95,7 @@ class ControllerProduct:
         data_json = self.mapper.conert_data_to_json(data)
         product = self.find_product_by_id(mongo, data_json["id"])
 
-        result = self.controllerCategory.remove_association_product(mongo, str(product["categories"]),  data_json["id"])
+        result = self.controllerCategory.remove_association_product({"category": str(product["categories"]), "product": data_json["id"]})
         if result:
             result_delete = mongo.db.products.delete_one({"_id": product["_id"]})
             if result_delete.deleted_count <= 0:
