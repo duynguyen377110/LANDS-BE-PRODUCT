@@ -99,5 +99,6 @@ class ServiceCategory:
             self.util_db.close_connect()
 
             return result.modified_count > 0 if True else False
+
         except Exception as e:
             return {"status": False, "message": e}
