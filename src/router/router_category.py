@@ -1,4 +1,4 @@
-from flask import Blueprint, request, json
+from flask import Blueprint, request
 from src.controller.controller_category import ControllerCategory
 from src.utils.util_db import UtilDb
 
