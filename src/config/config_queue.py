@@ -1,0 +1,6 @@
+config_queue = {
+    "CREATE_CATEGORY": {
+        "CONSUMER_CATEGORY": 'PRODUCT-NEW-CATEGORY',
+        "REFLY_CATEGORY": 'REFLY-PRODUCT-NEW-CATEGORY'
+    }
+}
