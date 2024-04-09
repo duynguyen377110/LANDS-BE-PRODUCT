@@ -1,17 +1,13 @@
 config_queue = {
-    "CREATE_CATEGORY": {
-        "CONSUMER_CATEGORY": 'PRODUCT-NEW-CATEGORY',
-        "REFLY_CATEGORY": 'REFLY-PRODUCT-NEW-CATEGORY'
-    },
-    "UPDATE_CATEGORY": {
-        "CONSUMER_UPDATE_CATEGORY": 'REDUCER_UPDATE_CATEGORY',
-        "REFLY_UPDATE_CATEGORY": 'COMSUMER_UPDATE_CATEGORY'
-    },
 
     "CATEGORY": {
         "NEW": {
             "CONSUMER": "NEW-CATEGORY",
             "REFLY": "REFLY-NEW-CATEGORY"
+        },
+        "DELETE": {
+            "CONSUMER": "DELETE-CATEGORY",
+            "REFLY": "REFLY-DELETE-CATEGORY"
         }
     }
 }

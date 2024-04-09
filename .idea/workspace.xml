@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4af6905a-a9f6-4ab3-a7f9-af3c32b2df2b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/config_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/config_queue.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/controller_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/controller_category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/router_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/router_category.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/share_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/share_connect.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

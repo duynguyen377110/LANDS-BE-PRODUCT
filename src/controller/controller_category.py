@@ -18,13 +18,12 @@ class ControllerCategory:
         producer_queue = config_queue['CATEGORY']['NEW']['REFLY']
 
         def callback(ch, method, properties, body):
-            print("Received message:", body)
+            data = json.loads(body.decode("utf-8"))
 
-            producer(
-                producer_queue,
-                {"status": True, "message": "Create category success"}
-            )
-        consumer(consumer_queue, callback, True)
+            payload = self.serviceCategory.create_category(data)
+            producer(producer_queue, payload)
+
+        consumer(consumer_queue, callback, False)
 
     # UPDATE CATEGORY
     def update_category(self, data):
@@ -32,9 +31,17 @@ class ControllerCategory:
         return self.serviceCategory.update_category(category_json)
 
     # DELETE CATEGORY BY ID
-    def delete_category(self, data):
-        category_json = self.mapper.conert_data_to_json(data)
-        return self.serviceCategory.delete_category(category_json)
+    def delete_category(self, consumer, producer):
+        consumer_queue = config_queue['CATEGORY']['DELETE']['CONSUMER']
+        producer_queue = config_queue['CATEGORY']['DELETE']['REFLY']
+
+        def callback(ch, method, properties, body):
+            data = json.loads(body.decode("utf-8"))
+
+            payload = self.serviceCategory.delete_category(data)
+            producer(producer_queue, payload)
+
+        consumer(consumer_queue, callback, True)
 
     # CREATE ASSOCIAION CATEGORY - PRODUCT
     def create_association_product(self, data):
