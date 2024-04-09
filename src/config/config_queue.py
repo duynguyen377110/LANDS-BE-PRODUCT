@@ -18,6 +18,10 @@ config_queue = {
         "NEW": {
             "CONSUMER": "NEW-PRODUCT",
             "REFLY": "REFLY-NEW-PRODUCT"
+        },
+        "DELETE": {
+            "CONSUMER": "DELETE-PRODUCT",
+            "REFLY": "REFLY-DELETE-PRODUCT"
         }
     }
 }

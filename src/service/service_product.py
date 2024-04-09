@@ -41,9 +41,7 @@ class ServiceProduct:
 
         if result:
             return {'status': True, 'message': 'Create sucess'}
-
-        else:
-            return {'status': False, 'message': 'Create unsucess'}
+        return {'status': False, 'message': 'Create unsucess'}
 
 
     # UPDATE CATEGORY
