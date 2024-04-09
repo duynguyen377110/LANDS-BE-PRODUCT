@@ -13,5 +13,11 @@ config_queue = {
             "CONSUMER": "DELETE-CATEGORY",
             "REFLY": "REFLY-DELETE-CATEGORY"
         }
+    },
+    "PRODUCT":{
+        "NEW": {
+            "CONSUMER": "NEW-PRODUCT",
+            "REFLY": "REFLY-NEW-PRODUCT"
+        }
     }
 }

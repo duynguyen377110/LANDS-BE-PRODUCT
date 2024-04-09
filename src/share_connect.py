@@ -2,6 +2,7 @@ import pika
 from flask import json
 from src.config.config import Config
 from src.controller.controller_category import ControllerCategory
+from src.controller.controller_product import ControllerProduct
 import copy
 
 class ShareConnect:
@@ -9,6 +10,7 @@ class ShareConnect:
     connect = None
     config = Config()
     controllerCategory = ControllerCategory()
+    controllerProduct = ControllerProduct()
 
     def __init__(self):
         url = pika.URLParameters(self.config.urlQueue)
@@ -42,6 +44,10 @@ class ShareConnect:
         )
 
     def construction(self):
+        # CATEGORY
         self.controllerCategory.create_category(self.consumer, self.producer)
         self.controllerCategory.update_category(self.consumer, self.producer)
         self.controllerCategory.delete_category(self.consumer, self.producer)
+
+        # PRODUCT
+        self.controllerProduct.create_product(self.consumer, self.producer)
