@@ -2,6 +2,7 @@ import pika
 from flask import json
 from src.config.config import Config
 from src.controller.controller_category import ControllerCategory
+import copy
 
 class ShareConnect:
 
@@ -19,14 +20,14 @@ class ShareConnect:
         return cls()
 
 
-    def consumer(self, queue, fn):
+    def consumer(self, queue, fn, end=False):
         channel = self.connect.channel()
         channel.queue_declare(queue=queue, durable=True)
 
         channel.basic_qos(prefetch_count=1)
-        channel.basic_consume(queue=queue, on_message_callback=fn)
-
-        channel.start_consuming()
+        channel.basic_consume(queue=queue, on_message_callback=fn, auto_ack=True)
+        if end:
+            channel.start_consuming()
 
     def producer(self, queue, payload):
         properties = pika.BasicProperties(delivery_mode=2, expiration="1500")
@@ -41,4 +42,4 @@ class ShareConnect:
         )
 
     def construction(self):
-        self.controllerCategory.modify_category(self.consumer, self.producer)
+        self.controllerCategory.create_category(self.consumer, self.producer)

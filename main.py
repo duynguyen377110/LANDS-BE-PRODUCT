@@ -22,4 +22,4 @@ app.register_blueprint(router_category)
 app.register_blueprint(router_product)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8082)
+    app.run(host='0.0.0.0', port=8082, threaded=False)
