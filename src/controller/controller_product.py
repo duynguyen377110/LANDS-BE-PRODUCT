@@ -35,9 +35,17 @@ class ControllerProduct:
         consumer(consumer_queue, callback, False)
 
     # UPDATE PRODUCT
-    def update_product(self, data):
-        product_json = self.mapper.conert_data_to_json(data)
-        return self.serviceProduct.update_product(product_json)
+    def update_product(self, consumer, producer):
+        consumer_queue = config_queue['PRODUCT']['UPDATE']['CONSUMER']
+        producer_queue = config_queue['PRODUCT']['UPDATE']['REFLY']
+
+        def callback(ch, method, properties, body):
+            data = json.loads(body.decode("utf-8"))
+
+            payload = self.serviceProduct.update_product(data)
+            producer(producer_queue, payload)
+
+        consumer(consumer_queue, callback, False)
 
 
     # DELETE PRODUCT
