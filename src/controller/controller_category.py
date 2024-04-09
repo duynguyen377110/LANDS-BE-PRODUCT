@@ -1,9 +1,7 @@
 from src.utils.util_mapper import UtilMapper
 from src.service.service_category import ServiceCategory
 from src.config.config_queue import config_queue
-import pika
 from flask import json
-import copy
 
 class ControllerCategory:
 
@@ -26,9 +24,17 @@ class ControllerCategory:
         consumer(consumer_queue, callback, False)
 
     # UPDATE CATEGORY
-    def update_category(self, data):
-        category_json = self.mapper.conert_data_to_json(data)
-        return self.serviceCategory.update_category(category_json)
+    def update_category(self, consumer, producer):
+        consumer_queue = config_queue['CATEGORY']['UPDATE']['CONSUMER']
+        producer_queue = config_queue['CATEGORY']['UPDATE']['REFLY']
+
+        def callback(ch, method, properties, body):
+            data = json.loads(body.decode("utf-8"))
+
+            payload = self.serviceCategory.update_category(data)
+            producer(producer_queue, payload)
+
+        consumer(consumer_queue, callback, False)
 
     # DELETE CATEGORY BY ID
     def delete_category(self, consumer, producer):

@@ -43,4 +43,5 @@ class ShareConnect:
 
     def construction(self):
         self.controllerCategory.create_category(self.consumer, self.producer)
+        self.controllerCategory.update_category(self.consumer, self.producer)
         self.controllerCategory.delete_category(self.consumer, self.producer)
