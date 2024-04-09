@@ -47,7 +47,7 @@ class ControllerCategory:
             payload = self.serviceCategory.delete_category(data)
             producer(producer_queue, payload)
 
-        consumer(consumer_queue, callback, True)
+        consumer(consumer_queue, callback, False)
 
     # CREATE ASSOCIAION CATEGORY - PRODUCT
     def create_association_product(self, data):

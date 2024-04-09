@@ -2,3 +2,4 @@ flask
 pika
 flask_pymongo
 flask_cors
+decimal128

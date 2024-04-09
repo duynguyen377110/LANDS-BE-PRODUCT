@@ -35,13 +35,15 @@ class ServiceProduct:
         self.util_db.close_connect()
 
         if product == None:
-            return {'status': False, 'message': 'Create product unsucess'}
+            return {'status': False, 'message': 'Create unsucess'}
 
         result = self.serviceCategory.create_association_product({"category": payload["category"], "product": str(product.inserted_id)})
 
         if result:
-            return {'status': True, 'message': 'Create product sucess'}
-        return {'status': False, 'message': 'Create product unsucess'}
+            return {'status': True, 'message': 'Create sucess'}
+
+        else:
+            return {'status': False, 'message': 'Create unsucess'}
 
 
     # UPDATE CATEGORY
