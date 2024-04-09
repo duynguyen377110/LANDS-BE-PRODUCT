@@ -51,3 +51,4 @@ class ShareConnect:
 
         # PRODUCT
         self.controllerProduct.create_product(self.consumer, self.producer)
+        self.controllerProduct.delete_product(self.consumer, self.producer)
